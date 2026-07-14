@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VOLTA Pulse Runner — Performance Running Shoe</title>
+  <meta name="description" content="VOLTA Pulse Runner — a premium running shoe product page." />
+
+  <!-- Google Fonts: Space Grotesk (display), Inter (body), JetBrains Mono (data/utility) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+:root {
+  --color-bg: #f2f1ed;
+  --color-bg-alt: #eae8e1;
+  --color-surface: #ffffff;
+  --color-ink: #101010;
+  --color-ink-soft: #45464a;
+  --color-line: #dedad0;
+  --color-volt: #d6ff3c;
+  --color-volt-dark: #a9cc1f;
+  --color-ember: #c83c2d;
+  --color-graphite: #23252a;
+  --color-success: #1f8a4c;
+
+  --font-display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+
+  --container-w: 1240px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 1px 3px rgba(16,16,16,0.06);
+  --shadow-md: 0 10px 30px rgba(16,16,16,0.08);
+  --shadow-lg: 0 24px 60px rgba(16,16,16,0.14);
+  --transition: 220ms cubic-bezier(.4,0,.2,1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: var(--color-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+ul { list-style: none; }
+:focus-visible { outline: 2.5px solid var(--color-ink); outline-offset: 3px; }
+.container { max-width: var(--container-w); margin: 0 auto; padding: 0 24px; }
+
+/* HEADER */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(242, 241, 237, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-line);
+}
+.header-inner { display: flex; align-items: center; gap: 28px; padding-top: 14px; padding-bottom: 14px; }
+.logo-img { height: 30px; width: auto; }
+.main-nav ul { display: flex; gap: 26px; }
+.main-nav a {
+  font-family: var(--font-display); font-weight: 600; font-size: 0.92rem;
+  letter-spacing: 0.01em; padding: 6px 0; position: relative;
+  color: var(--color-ink-soft); transition: color var(--transition);
+}
+.main-nav a:hover, .main-nav a.active { color: var(--color-ink); }
+.main-nav a.active::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px;
+  height: 3px; background: var(--color-volt); border-radius: 2px;
+}
+.header-actions { display: flex; align-items: center; gap: 14px; margin-left: auto; }
+.search-bar {
+  display: flex; align-items: center; background: var(--color-surface);
+  border: 1px solid var(--color-line); border-radius: 999px;
+  padding: 6px 6px 6px 16px; min-width: 260px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.search-bar:focus-within { border-color: var(--color-ink); box-shadow: 0 0 0 3px rgba(16,16,16,0.06); }
+.search-bar input { border: none; outline: none; font-size: 0.88rem; font-family: var(--font-body); flex: 1; background: transparent; }
+.search-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--color-ink); color: var(--color-volt);
+  transition: transform var(--transition);
+}
+.search-btn:hover { transform: scale(1.06); }
+.icon-btn {
+  position: relative; width: 40px; height: 40px; display: flex;
+  align-items: center; justify-content: center; border-radius: 50%;
+  color: var(--color-ink); transition: background var(--transition), transform var(--transition);
+}
+.icon-btn:hover { background: var(--color-bg-alt); transform: translateY(-1px); }
+.cart-count {
+  position: absolute; top: -2px; right: -2px; background: var(--color-volt);
+  color: var(--color-ink); font-family: var(--font-mono); font-size: 0.66rem;
+  font-weight: 700; min-width: 18px; height: 18px; border-radius: 999px;
+  display: flex; align-items: center; justify-content: center; padding: 0 4px;
+  border: 2px solid var(--color-bg);
+}
+.mobile-menu-btn { display: none; flex-direction: column; gap: 5px; width: 26px; }
+.mobile-menu-btn span { height: 2px; background: var(--color-ink); border-radius: 2px; transition: transform var(--transition), opacity var(--transition); }
+.mobile-nav { display: none; border-top: 1px solid var(--color-line); background: var(--color-bg); }
+.mobile-nav.open { display: block; }
+.mobile-nav ul { padding: 10px 24px 18px; display: flex; flex-direction: column; gap: 4px; }
+.mobile-nav a { display: block; padding: 10px 4px; font-family: var(--font-display); font-weight: 600; border-bottom: 1px solid var(--color-line); }
+
+/* Toast */
+.toast {
+  position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px);
+  background: var(--color-ink); color: var(--color-volt);
+  font-family: var(--font-display); font-weight: 600; font-size: 0.9rem;
+  padding: 13px 22px; border-radius: 999px; box-shadow: var(--shadow-lg);
+  z-index: 1000; opacity: 0; pointer-events: none;
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* BREADCRUMB */
+.breadcrumb { padding-top: 18px; font-size: 0.82rem; color: var(--color-ink-soft); }
+.breadcrumb a:hover { color: var(--color-ink); }
+.breadcrumb .current { color: var(--color-ink); font-weight: 600; }
+.breadcrumb span { margin: 0 6px; }
+
+/* PRODUCT HERO */
+.product-hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; padding: 28px 24px 72px; align-items: start; }
+.gallery { position: relative; position: sticky; top: 96px; }
+.stripe-mark {
+  position: absolute; top: -18px; left: -18px; width: 68%; height: 46%;
+  background: var(--color-volt); border-radius: var(--radius-lg);
+  transform: rotate(-4deg); z-index: 0;
+}
+.main-image-wrap {
+  position: relative; background: var(--color-surface); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg); overflow: hidden; aspect-ratio: 1 / 1; z-index: 1;
+}
+.main-image { width: 100%; height: 100%; object-fit: cover; transition: opacity 260ms ease, transform 420ms ease; }
+.main-image-wrap:hover .main-image { transform: scale(1.06); }
+.main-image.fade { opacity: 0; }
+.badge-discount {
+  position: absolute; top: 18px; left: 18px; background: var(--color-ink); color: var(--color-volt);
+  font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; padding: 7px 13px; border-radius: 999px; z-index: 2;
+}
+.wishlist-toggle {
+  position: absolute; top: 16px; right: 16px; width: 42px; height: 42px; border-radius: 50%;
+  background: var(--color-surface); box-shadow: var(--shadow-sm); display: flex; align-items: center;
+  justify-content: center; color: var(--color-ink); z-index: 2;
+  transition: transform var(--transition), color var(--transition), background var(--transition);
+}
+.wishlist-toggle:hover { transform: scale(1.08); }
+.wishlist-toggle.active { color: var(--color-ember); background: #fdeceb; }
+.wishlist-toggle.active svg path { fill: var(--color-ember); }
+.thumb-row { display: flex; gap: 14px; margin-top: 18px; position: relative; z-index: 1; }
+.thumb {
+  width: 84px; height: 84px; border-radius: var(--radius-md); overflow: hidden;
+  border: 2px solid transparent; background: var(--color-surface); box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition), transform var(--transition); flex-shrink: 0;
+}
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.thumb:hover { transform: translateY(-3px); }
+.thumb.active { border-color: var(--color-ink); }
+
+.product-info { padding-top: 4px; }
+.brand-name { font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.12em; font-size: 0.8rem; color: var(--color-ink-soft); text-transform: uppercase; }
+.product-name { font-family: var(--font-display); font-size: clamp(1.7rem, 2.6vw, 2.4rem); font-weight: 700; line-height: 1.15; margin-top: 8px; }
+.category-tag { margin-top: 8px; font-size: 0.86rem; color: var(--color-ink-soft); }
+.rating-row { display: flex; align-items: center; gap: 10px; margin-top: 16px; }
+.stars { display: flex; gap: 2px; color: var(--color-ink); }
+.stars svg { color: var(--color-ink); }
+.rating-value { font-family: var(--font-mono); font-weight: 700; font-size: 0.88rem; }
+.review-count { font-size: 0.85rem; color: var(--color-ink-soft); text-decoration: underline; text-underline-offset: 3px; }
+.review-count:hover { color: var(--color-ink); }
+.price-row { display: flex; align-items: baseline; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+.price-current { font-family: var(--font-mono); font-size: 1.9rem; font-weight: 700; }
+.price-original { font-family: var(--font-mono); font-size: 1.05rem; color: var(--color-ink-soft); text-decoration: line-through; }
+.price-discount { background: #eaf7ee; color: var(--color-success); font-family: var(--font-mono); font-weight: 700; font-size: 0.78rem; padding: 4px 10px; border-radius: 999px; }
+.stock-status { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 0.86rem; font-weight: 600; }
+.stock-status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-success); }
+.stock-status.in-stock { color: var(--color-success); }
+.stock-status.out-stock { color: var(--color-ember); }
+.stock-status.out-stock .dot { background: var(--color-ember); }
+.product-desc { margin-top: 20px; color: var(--color-ink-soft); font-size: 0.96rem; max-width: 54ch; }
+.features-list { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.features-list li { position: relative; padding-left: 22px; font-size: 0.9rem; color: var(--color-ink-soft); }
+.features-list li::before { content: ""; position: absolute; left: 0; top: 7px; width: 9px; height: 9px; background: var(--color-volt); border-radius: 2px; }
+.option-group { margin-top: 26px; }
+.option-label { font-family: var(--font-display); font-weight: 600; font-size: 0.92rem; margin-bottom: 10px; }
+.option-label span { color: var(--color-ink-soft); font-weight: 500; }
+.color-options { display: flex; gap: 12px; }
+.color-swatch {
+  width: 38px; height: 38px; border-radius: 50%; background: var(--swatch);
+  border: 2px solid var(--color-line); position: relative;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.color-swatch:hover { transform: translateY(-2px); }
+.color-swatch.active { border-color: var(--color-ink); box-shadow: 0 0 0 3px var(--color-bg), 0 0 0 5px var(--color-ink); }
+.size-options { display: flex; gap: 10px; flex-wrap: wrap; }
+.size-swatch {
+  min-width: 46px; height: 46px; padding: 0 10px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-line); background: var(--color-surface);
+  font-family: var(--font-mono); font-weight: 600; font-size: 0.9rem;
+  transition: border-color var(--transition), background var(--transition), color var(--transition);
+}
+.size-swatch:hover { border-color: var(--color-ink); }
+.size-swatch.active { background: var(--color-ink); color: var(--color-volt); border-color: var(--color-ink); }
+.size-guide-link { display: inline-block; margin-top: 10px; font-size: 0.8rem; text-decoration: underline; text-underline-offset: 3px; color: var(--color-ink-soft); }
+.size-guide-link:hover { color: var(--color-ink); }
+.qty-selector { display: inline-flex; align-items: center; border: 1.5px solid var(--color-line); border-radius: 999px; overflow: hidden; }
+.qty-btn { width: 42px; height: 42px; font-size: 1.15rem; font-weight: 600; transition: background var(--transition); }
+.qty-btn:hover { background: var(--color-bg-alt); }
+.qty-value { width: 46px; text-align: center; font-family: var(--font-mono); font-weight: 700; }
+.action-row { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
+.btn {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; padding: 16px 28px;
+  border-radius: 999px; transition: transform var(--transition), box-shadow var(--transition), background var(--transition), opacity var(--transition);
+  flex: 1; min-width: 180px; text-align: center;
+}
+.btn-primary { background: var(--color-ink); color: var(--color-volt); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.btn-secondary { background: var(--color-volt); color: var(--color-ink); }
+.btn-secondary:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.btn:active { transform: translateY(0); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+.trust-row { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--color-line); }
+.trust-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--color-ink-soft); }
+.trust-item svg { flex-shrink: 0; }
+
+.section-title { font-family: var(--font-display); font-size: clamp(1.4rem, 2vw, 1.9rem); font-weight: 700; margin-bottom: 28px; }
+
+/* SPECS */
+.specs-section { padding: 20px 24px 70px; }
+.specs-table-wrap { background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow: hidden; border: 1px solid var(--color-line); }
+.specs-table { width: 100%; border-collapse: collapse; }
+.specs-table tr:not(:last-child) { border-bottom: 1px solid var(--color-line); }
+.specs-table th, .specs-table td { text-align: left; padding: 16px 24px; font-size: 0.9rem; }
+.specs-table th { width: 240px; font-family: var(--font-display); font-weight: 600; color: var(--color-ink-soft); background: var(--color-bg-alt); }
+.specs-table td { font-family: var(--font-mono); }
+
+/* REVIEWS */
+.reviews-section { padding: 0 24px 70px; }
+.reviews-summary {
+  display: grid; grid-template-columns: 220px 1fr; gap: 40px; background: var(--color-surface);
+  border: 1px solid var(--color-line); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 30px;
+}
+.reviews-score { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-right: 1px solid var(--color-line); padding-right: 20px; }
+.score-big { font-family: var(--font-display); font-size: 3rem; font-weight: 700; }
+.stars-static { color: var(--color-volt-dark); font-size: 1.1rem; margin: 4px 0; }
+.score-sub { font-size: 0.78rem; color: var(--color-ink-soft); }
+.reviews-bars { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+.bar-row { display: grid; grid-template-columns: 30px 1fr 40px; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-ink-soft); }
+.bar { height: 8px; background: var(--color-bg-alt); border-radius: 999px; overflow: hidden; }
+.bar div { height: 100%; background: var(--color-volt); border-radius: 999px; }
+.review-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.review-card { background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-md); padding: 22px; transition: transform var(--transition), box-shadow var(--transition); }
+.review-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.review-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.review-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--color-ink); color: var(--color-volt); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
+.review-name { font-weight: 600; font-size: 0.9rem; }
+.review-stars { color: var(--color-volt-dark); font-size: 0.85rem; }
+.review-date { margin-left: auto; font-size: 0.75rem; color: var(--color-ink-soft); }
+.review-body { font-size: 0.88rem; color: var(--color-ink-soft); }
+
+/* RELATED */
+.related-section { padding: 0 24px 80px; }
+.related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.related-card { background: var(--color-surface); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-line); transition: transform var(--transition), box-shadow var(--transition); }
+.related-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+.related-card img { aspect-ratio: 1/1; object-fit: cover; transition: transform 420ms ease; }
+.related-card:hover img { transform: scale(1.08); }
+.related-name { font-family: var(--font-display); font-weight: 600; font-size: 0.92rem; padding: 14px 16px 2px; }
+.related-price { font-family: var(--font-mono); font-weight: 700; font-size: 0.88rem; padding: 0 16px 16px; color: var(--color-ink-soft); }
+
+/* FOOTER */
+.site-footer { background: var(--color-graphite); color: #e9e9e6; padding: 64px 0 0; }
+.footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1.4fr; gap: 32px; padding-bottom: 48px; }
+.footer-logo { height: 26px; filter: brightness(0) invert(1); margin-bottom: 14px; }
+.footer-brand p { font-size: 0.85rem; color: #b5b5b0; max-width: 32ch; }
+.footer-col h3 { font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 16px; color: #fff; }
+.footer-col ul { display: flex; flex-direction: column; gap: 10px; }
+.footer-col a { font-size: 0.86rem; color: #b5b5b0; transition: color var(--transition); }
+.footer-col a:hover { color: var(--color-volt); }
+.newsletter-form { display: flex; border-radius: 999px; overflow: hidden; background: #33353a; }
+.newsletter-form input { flex: 1; border: none; background: transparent; padding: 12px 16px; color: #fff; font-size: 0.82rem; outline: none; }
+.newsletter-form input::placeholder { color: #8a8b8f; }
+.newsletter-form button { background: var(--color-volt); color: var(--color-ink); font-weight: 700; font-size: 0.82rem; padding: 0 18px; transition: background var(--transition); }
+.newsletter-form button:hover { background: var(--color-volt-dark); }
+.footer-bottom { display: flex; justify-content: space-between; padding: 20px 24px; border-top: 1px solid #3a3c41; font-size: 0.76rem; color: #8a8b8f; flex-wrap: wrap; gap: 8px; }
+
+/* RESPONSIVE */
+@media (max-width: 1080px) {
+  .related-grid { grid-template-columns: repeat(2, 1fr); }
+  .review-cards { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+@media (max-width: 960px) {
+  .main-nav { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .search-bar { min-width: 0; width: 180px; }
+  .product-hero { grid-template-columns: 1fr; gap: 34px; }
+  .gallery { position: static; }
+}
+@media (max-width: 720px) {
+  .header-actions .search-bar { display: none; }
+  .header-inner { gap: 12px; }
+  .reviews-summary { grid-template-columns: 1fr; }
+  .reviews-score { border-right: none; border-bottom: 1px solid var(--color-line); padding-right: 0; padding-bottom: 20px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .related-grid { grid-template-columns: repeat(2, 1fr); }
+  .review-cards { grid-template-columns: 1fr; }
+  .action-row .btn { min-width: 140px; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .product-hero { padding: 20px 16px 50px; }
+  .specs-section, .reviews-section, .related-section { padding-left: 16px; padding-right: 16px; }
+  .related-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .specs-table th { width: 130px; }
+  .specs-table th, .specs-table td { padding: 12px 14px; font-size: 0.82rem; }
+  .action-row { flex-direction: column; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .price-current { font-size: 1.5rem; }
+}
+
+/* Inline logo (single-file build) */
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark { width: 20px; height: 34px; background: var(--color-volt); border-radius: 4px; display: inline-block; }
+.logo-text { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; letter-spacing: -0.01em; }
+.footer-logo-text { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; color: #fff; margin-bottom: 14px; display: inline-block; }
+
+/* Product visual placeholders (single-file build, no external images) */
+.product-visual {
+  position: relative; width: 100%; height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 10px; overflow: hidden;
+}
+.product-visual.cw-1 { background: linear-gradient(135deg, #f7f6f2, #e6e4db); color: #101010; }
+.product-visual.cw-2 { background: linear-gradient(135deg, #2a2a2a, #101010); color: #d6ff3c; }
+.product-visual.cw-3 { background: linear-gradient(135deg, #f7e2dc, #e3a394); color: #7a2418; }
+.product-visual.cw-4 { background: linear-gradient(135deg, #e1ece8, #b9d2c9); color: #234238; }
+.shoe-icon { width: 46%; height: auto; fill: currentColor; opacity: 0.9; }
+.visual-label { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em; opacity: 0.85; }
+.thumb-visual .shoe-icon { width: 60%; }
+.thumb-visual .visual-label { display: none; }
+.related-visual { aspect-ratio: 1/1; }
+.related-visual .visual-label { display: none; }
+.related-visual .shoe-icon { width: 50%; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner container">
+
+      <a href="#" class="logo" aria-label="VOLTA home">
+        <span class="logo-mark"></span><span class="logo-text">VOLTA</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Primary">
+        <ul>
+          <li><a href="#" class="active">Men</a></li>
+          <li><a href="#">Women</a></li>
+          <li><a href="#">Running</a></li>
+          <li><a href="#">Trail</a></li>
+          <li><a href="#">Sale</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="search-bar">
+          <input type="text" placeholder="Search shoes, gear, brands…" aria-label="Search" />
+          <button type="button" class="search-btn" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+
+        <button type="button" class="icon-btn" id="wishlistHeaderBtn" aria-label="Wishlist">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.6-10-9.1C0.3 8.1 2 4.5 5.6 4c2-.3 3.8.6 5 2.3C11.8 4.6 13.6 3.7 15.6 4c3.6.5 5.3 4.1 3.6 7.9C19.5 16.4 12 21 12 21z" stroke="currentColor" stroke-width="1.8"/></svg>
+        </button>
+
+        <button type="button" class="icon-btn cart-btn" id="cartBtn" aria-label="Cart">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.4 12.4a2 2 0 002 1.6h7.6a2 2 0 002-1.6L20 8H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="21" r="1.4" fill="currentColor"/><circle cx="18" cy="21" r="1.4" fill="currentColor"/></svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+      <ul>
+        <li><a href="#">Men</a></li>
+        <li><a href="#">Women</a></li>
+        <li><a href="#">Running</a></li>
+        <li><a href="#">Trail</a></li>
+        <li><a href="#">Sale</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="toast" id="toast"></div>
+
+  <main>
+    <div class="container breadcrumb">
+      <a href="#">Home</a> <span>/</span> <a href="#">Running</a> <span>/</span> <a href="#">Men</a> <span>/</span> <span class="current">Pulse Runner</span>
+    </div>
+
+    <section class="product-hero container">
+
+      <div class="gallery">
+        <div class="stripe-mark" aria-hidden="true"></div>
+        <div class="main-image-wrap">
+          <span class="badge-discount" id="discountBadge">-30%</span>
+          <button type="button" class="wishlist-toggle" id="wishlistBtn" aria-label="Add to wishlist" aria-pressed="false">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.6-10-9.1C0.3 8.1 2 4.5 5.6 4c2-.3 3.8.6 5 2.3C11.8 4.6 13.6 3.7 15.6 4c3.6.5 5.3 4.1 3.6 7.9C19.5 16.4 12 21 12 21z" stroke="currentColor" stroke-width="1.8"/></svg>
+          </button>
+          <div id="mainImage" class="main-image product-visual cw-1" role="img" aria-label="VOLTA Pulse Runner — Cloud White"><svg class="shoe-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M4 40c0-3 2-5 5-6l10-4c4-6 12-11 20-11 5 0 8 3 9 7l2 8c4 1 10 3 10 8 0 3-3 5-7 5H10c-4 0-6-3-6-7z"/><circle cx="18" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="26" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="34" cy="46" r="1.4" fill="#000" opacity=".25"/></svg><span class="visual-label">Cloud White</span></div>
+        </div>
+
+        <div class="thumb-row" id="thumbRow">
+          <button type="button" class="thumb active" data-visual="cw-1" data-label="Cloud White" data-alt="Cloud White colorway">
+            <div class="product-visual cw-1 thumb-visual" role="img" aria-label="Cloud White thumbnail"><svg class="shoe-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M4 40c0-3 2-5 5-6l10-4c4-6 12-11 20-11 5 0 8 3 9 7l2 8c4 1 10 3 10 8 0 3-3 5-7 5H10c-4 0-6-3-6-7z"/><circle cx="18" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="26" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="34" cy="46" r="1.4" fill="#000" opacity=".25"/></svg></div>
+          </button>
+          <button type="button" class="thumb" data-visual="cw-2" data-label="Ink Black" data-alt="Ink Black colorway">
+            <div class="product-visual cw-2 thumb-visual" role="img" aria-label="Ink Black thumbnail"><svg class="shoe-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M4 40c0-3 2-5 5-6l10-4c4-6 12-11 20-11 5 0 8 3 9 7l2 8c4 1 10 3 10 8 0 3-3 5-7 5H10c-4 0-6-3-6-7z"/><circle cx="18" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="26" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="34" cy="46" r="1.4" fill="#000" opacity=".25"/></svg></div>
+          </button>
+          <button type="button" class="thumb" data-visual="cw-3" data-label="Ember Red" data-alt="Ember Red colorway">
+            <div class="product-visual cw-3 thumb-visual" role="img" aria-label="Ember Red thumbnail"><svg class="shoe-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M4 40c0-3 2-5 5-6l10-4c4-6 12-11 20-11 5 0 8 3 9 7l2 8c4 1 10 3 10 8 0 3-3 5-7 5H10c-4 0-6-3-6-7z"/><circle cx="18" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="26" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="34" cy="46" r="1.4" fill="#000" opacity=".25"/></svg></div>
+          </button>
+          <button type="button" class="thumb" data-visual="cw-4" data-label="Graphite Teal" data-alt="Graphite Teal colorway">
+            <div class="product-visual cw-4 thumb-visual" role="img" aria-label="Graphite Teal thumbnail"><svg class="shoe-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M4 40c0-3 2-5 5-6l10-4c4-6 12-11 20-11 5 0 8 3 9 7l2 8c4 1 10 3 10 8 0 3-3 5-7 5H10c-4 0-6-3-6-7z"/><circle cx="18" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="26" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="34" cy="46" r="1.4" fill="#000" opacity=".25"/></svg></div>
+          </button>
+        </div>
+      </div>
+
+      <div class="product-info">
+
+        <p class="brand-name">VOLTA</p>
+        <h1 class="product-name">Pulse Runner — Performance Running Shoe</h1>
+        <p class="category-tag">Category: Men&rsquo;s Running Shoes</p>
+
+        <div class="rating-row">
+          <span class="stars" aria-label="Rated 4.5 out of 5">
+            <svg viewBox="0 0 20 20" width="18"><path fill="currentColor" d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20" width="18"><path fill="currentColor" d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20" width="18"><path fill="currentColor" d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20" width="18"><path fill="currentColor" d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20" width="18" class="star-half"><defs><linearGradient id="half"><stop offset="50%" stop-color="currentColor"/><stop offset="50%" stop-color="transparent"/></linearGradient></defs><path fill="url(#half)" stroke="currentColor" stroke-width="0.5" d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          </span>
+          <span class="rating-value">4.5</span>
+          <a href="#reviews" class="review-count">(1,248 customer reviews)</a>
+        </div>
+
+        <div class="price-row">
+          <span class="price-current" id="priceCurrent">₹6,299</span>
+          <span class="price-original" id="priceOriginal">₹8,999</span>
+          <span class="price-discount">Save 30%</span>
+        </div>
+
+        <p class="stock-status in-stock" id="stockStatus">
+          <span class="dot"></span> In Stock — Ships within 2 business days
+        </p>
+
+        <p class="product-desc">
+          Engineered for tempo runs and everyday miles alike, the Pulse Runner pairs a featherweight
+          knit upper with a responsive dual-density foam midsole. A wide toe box and radial-lug outsole
+          keep you planted through every stride, on road or light trail.
+        </p>
+
+        <ul class="features-list">
+          <li>Responsive PulseFoam™ midsole for energy return</li>
+          <li>Breathable engineered knit upper</li>
+          <li>Radial-lug rubber outsole for reliable grip</li>
+          <li>Reflective heel tab for low-light visibility</li>
+          <li>Removable OrthoLite® sockliner</li>
+        </ul>
+
+        <div class="option-group">
+          <p class="option-label">Color: <span id="selectedColorLabel">Cloud White</span></p>
+          <div class="color-options" id="colorOptions">
+            <button type="button" class="color-swatch active" data-color="Cloud White" data-visual="cw-1" data-label="Cloud White" style="--swatch:#f2f1ed" aria-label="Cloud White" aria-pressed="true"></button>
+            <button type="button" class="color-swatch" data-color="Ink Black" data-visual="cw-2" data-label="Ink Black" style="--swatch:#141414" aria-label="Ink Black" aria-pressed="false"></button>
+            <button type="button" class="color-swatch" data-color="Ember Red" data-visual="cw-3" data-label="Ember Red" style="--swatch:#c83c2d" aria-label="Ember Red" aria-pressed="false"></button>
+            <button type="button" class="color-swatch" data-color="Graphite Teal" data-visual="cw-4" data-label="Graphite Teal" style="--swatch:#3a7869" aria-label="Graphite Teal" aria-pressed="false"></button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <p class="option-label">Size (UK): <span id="selectedSizeLabel">Select a size</span></p>
+          <div class="size-options" id="sizeOptions">
+            <button type="button" class="size-swatch" data-size="6">6</button>
+            <button type="button" class="size-swatch" data-size="7">7</button>
+            <button type="button" class="size-swatch" data-size="8">8</button>
+            <button type="button" class="size-swatch" data-size="9">9</button>
+            <button type="button" class="size-swatch" data-size="10">10</button>
+            <button type="button" class="size-swatch" data-size="11">11</button>
+          </div>
+          <a href="#" class="size-guide-link">Size guide</a>
+        </div>
+
+        <div class="option-group">
+          <p class="option-label">Quantity</p>
+          <div class="qty-selector">
+            <button type="button" class="qty-btn" id="qtyMinus" aria-label="Decrease quantity">−</button>
+            <span class="qty-value" id="qtyValue">1</span>
+            <button type="button" class="qty-btn" id="qtyPlus" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button type="button" class="btn btn-primary" id="addToCartBtn">Add to Cart</button>
+          <button type="button" class="btn btn-secondary" id="buyNowBtn">Buy Now</button>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6 12-12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Free returns within 30 days
+          </div>
+          <div class="trust-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M7 7V5a5 5 0 0110 0v2" stroke="currentColor" stroke-width="1.8"/></svg>
+            Secure checkout
+          </div>
+          <div class="trust-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Authenticity guaranteed
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="container specs-section">
+      <h2 class="section-title">Product Specifications</h2>
+      <div class="specs-table-wrap">
+        <table class="specs-table">
+          <tbody>
+            <tr><th>Brand</th><td>VOLTA</td></tr>
+            <tr><th>Model</th><td>Pulse Runner</td></tr>
+            <tr><th>Category</th><td>Men&rsquo;s Running Shoes</td></tr>
+            <tr><th>Upper Material</th><td>Engineered knit mesh</td></tr>
+            <tr><th>Midsole</th><td>PulseFoam™ dual-density</td></tr>
+            <tr><th>Outsole</th><td>Radial-lug rubber</td></tr>
+            <tr><th>Weight</th><td>Approx. 255g (UK 8, single shoe)</td></tr>
+            <tr><th>Closure</th><td>Lace-up</td></tr>
+            <tr><th>Available Colors</th><td>Cloud White, Ink Black, Ember Red, Graphite Teal</td></tr>
+            <tr><th>Available Sizes</th><td>UK 6 – 11</td></tr>
+            <tr><th>Country of Origin</th><td>India</td></tr>
+            <tr><th>Warranty</th><td>6 months against manufacturing defects</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="container reviews-section" id="reviews">
+      <h2 class="section-title">Customer Reviews</h2>
+
+      <div class="reviews-summary">
+        <div class="reviews-score">
+          <span class="score-big">4.5</span>
+          <span class="stars-static">★★★★☆</span>
+          <span class="score-sub">Based on 1,248 reviews</span>
+        </div>
+        <div class="reviews-bars">
+          <div class="bar-row"><span>5★</span><div class="bar"><div style="width:68%"></div></div><span>68%</span></div>
+          <div class="bar-row"><span>4★</span><div class="bar"><div style="width:20%"></div></div><span>20%</span></div>
+          <div class="bar-row"><span>3★</span><div class="bar"><div style="width:7%"></div></div><span>7%</span></div>
+          <div class="bar-row"><span>2★</span><div class="bar"><div style="width:3%"></div></div><span>3%</span></div>
+          <div class="bar-row"><span>1★</span><div class="bar"><div style="width:2%"></div></div><span>2%</span></div>
+        </div>
+      </div>
+
+      <div class="review-cards">
+        <article class="review-card">
+          <div class="review-head">
+            <span class="review-avatar">AK</span>
+            <div>
+              <p class="review-name">Arjun K.</p>
+              <p class="review-stars">★★★★★</p>
+            </div>
+            <span class="review-date">2 weeks ago</span>
+          </div>
+          <p class="review-body">Lightest trainer I&rsquo;ve owned. Comfortable straight out of the box, no break-in period needed. Great for 10K tempo runs.</p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-head">
+            <span class="review-avatar">SP</span>
+            <div>
+              <p class="review-name">Sneha P.</p>
+              <p class="review-stars">★★★★★</p>
+            </div>
+            <span class="review-date">1 month ago</span>
+          </div>
+          <p class="review-body">Sizing runs true. The knit upper breathes really well even in humid weather. Would recommend the Graphite Teal colorway.</p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-head">
+            <span class="review-avatar">RM</span>
+            <div>
+              <p class="review-name">Rahul M.</p>
+              <p class="review-stars">★★★★☆</p>
+            </div>
+            <span class="review-date">6 weeks ago</span>
+          </div>
+          <p class="review-body">Great cushioning and grip on wet roads. Docking one star only because the laces could be slightly longer.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container related-section">
+      <h2 class="section-title">You May Also Like</h2>
+      <div class="related-grid">
+        <article class="related-card">
+          <div class="product-visual cw-2 related-visual" role="img" aria-label="VOLTA Aero Trainer"><svg class="shoe-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M4 40c0-3 2-5 5-6l10-4c4-6 12-11 20-11 5 0 8 3 9 7l2 8c4 1 10 3 10 8 0 3-3 5-7 5H10c-4 0-6-3-6-7z"/><circle cx="18" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="26" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="34" cy="46" r="1.4" fill="#000" opacity=".25"/></svg></div>
+          <p class="related-name">VOLTA Aero Trainer</p>
+          <p class="related-price">₹5,499</p>
+        </article>
+        <article class="related-card">
+          <div class="product-visual cw-3 related-visual" role="img" aria-label="VOLTA Trail Grip Mid"><svg class="shoe-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M4 40c0-3 2-5 5-6l10-4c4-6 12-11 20-11 5 0 8 3 9 7l2 8c4 1 10 3 10 8 0 3-3 5-7 5H10c-4 0-6-3-6-7z"/><circle cx="18" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="26" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="34" cy="46" r="1.4" fill="#000" opacity=".25"/></svg></div>
+          <p class="related-name">VOLTA Trail Grip Mid</p>
+          <p class="related-price">₹7,199</p>
+        </article>
+        <article class="related-card">
+          <div class="product-visual cw-4 related-visual" role="img" aria-label="VOLTA Flux Slip-On"><svg class="shoe-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M4 40c0-3 2-5 5-6l10-4c4-6 12-11 20-11 5 0 8 3 9 7l2 8c4 1 10 3 10 8 0 3-3 5-7 5H10c-4 0-6-3-6-7z"/><circle cx="18" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="26" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="34" cy="46" r="1.4" fill="#000" opacity=".25"/></svg></div>
+          <p class="related-name">VOLTA Flux Slip-On</p>
+          <p class="related-price">₹4,299</p>
+        </article>
+        <article class="related-card">
+          <div class="product-visual cw-1 related-visual" role="img" aria-label="VOLTA Pulse Runner Low"><svg class="shoe-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M4 40c0-3 2-5 5-6l10-4c4-6 12-11 20-11 5 0 8 3 9 7l2 8c4 1 10 3 10 8 0 3-3 5-7 5H10c-4 0-6-3-6-7z"/><circle cx="18" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="26" cy="46" r="1.4" fill="#000" opacity=".25"/><circle cx="34" cy="46" r="1.4" fill="#000" opacity=".25"/></svg></div>
+          <p class="related-name">VOLTA Pulse Runner Low</p>
+          <p class="related-price">₹6,299</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col footer-brand">
+        <span class="footer-logo-text">VOLTA</span>
+        <p>Performance footwear designed for the everyday athlete. Built for miles, made to move.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="#">Men</a></li>
+          <li><a href="#">Women</a></li>
+          <li><a href="#">Running</a></li>
+          <li><a href="#">Trail</a></li>
+          <li><a href="#">Sale</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">Track Order</a></li>
+          <li><a href="#">Returns &amp; Exchanges</a></li>
+          <li><a href="#">Size Guide</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="#">About VOLTA</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Stay in the loop</h3>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="Your email address" required aria-label="Email address" />
+          <button type="submit">Join</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom container">
+      <p>&copy; 2026 VOLTA. All rights reserved.</p>
+      <p>Built for the SKS Web Development Internship — Task 2.</p>
+    </div>
+  </footer>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  let cartCount = 0;
+  let quantity = 1;
+  let wishlisted = false;
+  let selectedSize = null;
+
+  const mainImage = document.getElementById("mainImage");
+  const thumbButtons = document.querySelectorAll(".thumb");
+
+  const colorOptions = document.getElementById("colorOptions");
+  const selectedColorLabel = document.getElementById("selectedColorLabel");
+
+  const sizeOptions = document.getElementById("sizeOptions");
+  const selectedSizeLabel = document.getElementById("selectedSizeLabel");
+
+  const qtyMinus = document.getElementById("qtyMinus");
+  const qtyPlus = document.getElementById("qtyPlus");
+  const qtyValue = document.getElementById("qtyValue");
+
+  const addToCartBtn = document.getElementById("addToCartBtn");
+  const buyNowBtn = document.getElementById("buyNowBtn");
+
+  const wishlistBtn = document.getElementById("wishlistBtn");
+  const wishlistHeaderBtn = document.getElementById("wishlistHeaderBtn");
+
+  const cartCountEl = document.getElementById("cartCount");
+  const toast = document.getElementById("toast");
+
+  const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+  const mobileNav = document.getElementById("mobileNav");
+
+  const newsletterForm = document.getElementById("newsletterForm");
+
+  let toastTimer = null;
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2200);
+  }
+
+  const visualClasses = ["cw-1", "cw-2", "cw-3", "cw-4"];
+
+  function setMainVisual(visualClass, label) {
+    mainImage.classList.add("fade");
+    setTimeout(() => {
+      visualClasses.forEach((c) => mainImage.classList.remove(c));
+      mainImage.classList.add(visualClass);
+      mainImage.setAttribute("aria-label", `VOLTA Pulse Runner — ${label}`);
+      const labelEl = mainImage.querySelector(".visual-label");
+      if (labelEl) labelEl.textContent = label;
+      mainImage.classList.remove("fade");
+    }, 160);
+  }
+
+  thumbButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      thumbButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      setMainVisual(btn.dataset.visual, btn.dataset.label);
+
+      const matchingColor = document.querySelector(
+        `.color-swatch[data-visual="${btn.dataset.visual}"]`
+      );
+      if (matchingColor) {
+        activateColor(matchingColor);
+      }
+    });
+  });
+
+  function activateColor(swatch) {
+    document.querySelectorAll(".color-swatch").forEach((s) => {
+      s.classList.remove("active");
+      s.setAttribute("aria-pressed", "false");
+    });
+    swatch.classList.add("active");
+    swatch.setAttribute("aria-pressed", "true");
+    selectedColorLabel.textContent = swatch.dataset.color;
+
+    setMainVisual(swatch.dataset.visual, swatch.dataset.color);
+    thumbButtons.forEach((t) => {
+      t.classList.toggle("active", t.dataset.visual === swatch.dataset.visual);
+    });
+  }
+
+  colorOptions.addEventListener("click", (e) => {
+    const swatch = e.target.closest(".color-swatch");
+    if (!swatch) return;
+    activateColor(swatch);
+  });
+
+  sizeOptions.addEventListener("click", (e) => {
+    const swatch = e.target.closest(".size-swatch");
+    if (!swatch) return;
+    document.querySelectorAll(".size-swatch").forEach((s) => s.classList.remove("active"));
+    swatch.classList.add("active");
+    selectedSize = swatch.dataset.size;
+    selectedSizeLabel.textContent = `UK ${selectedSize}`;
+  });
+
+  function updateQtyDisplay() {
+    qtyValue.textContent = quantity;
+  }
+
+  qtyMinus.addEventListener("click", () => {
+    if (quantity > 1) {
+      quantity -= 1;
+      updateQtyDisplay();
+    }
+  });
+
+  qtyPlus.addEventListener("click", () => {
+    quantity += 1;
+    updateQtyDisplay();
+  });
+
+  function updateCartCount() {
+    cartCountEl.textContent = cartCount;
+  }
+
+  function requireSizeSelected() {
+    if (!selectedSize) {
+      showToast("Please select a size first.");
+      sizeOptions.scrollIntoView({ behavior: "smooth", block: "center" });
+      return false;
+    }
+    return true;
+  }
+
+  addToCartBtn.addEventListener("click", () => {
+    if (!requireSizeSelected()) return;
+    cartCount += quantity;
+    updateCartCount();
+    showToast("Product added successfully.");
+  });
+
+  buyNowBtn.addEventListener("click", () => {
+    if (!requireSizeSelected()) return;
+    showToast("Proceeding to checkout.");
+  });
+
+  function toggleWishlist() {
+    wishlisted = !wishlisted;
+    wishlistBtn.classList.toggle("active", wishlisted);
+    wishlistBtn.setAttribute("aria-pressed", String(wishlisted));
+    if (wishlisted) {
+      showToast("Added to Wishlist.");
+    } else {
+      showToast("Removed from Wishlist.");
+    }
+  }
+
+  wishlistBtn.addEventListener("click", toggleWishlist);
+  wishlistHeaderBtn.addEventListener("click", toggleWishlist);
+
+  mobileMenuBtn.addEventListener("click", () => {
+    mobileNav.classList.toggle("open");
+    mobileMenuBtn.classList.toggle("open");
+  });
+
+  if (newsletterForm) {
+    newsletterForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      showToast("Thanks for subscribing.");
+      newsletterForm.reset();
+    });
+  }
+
+  updateCartCount();
+  updateQtyDisplay();
+});
+  </script>
+</body>
+</html>
