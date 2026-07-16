@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task 6 - Interactive Web Application</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+  color: #1f2937;
+  padding: 30px 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  font-size: 26px;
+  color: #1f2937;
+}
+
+header p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 5px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+@media (max-width: 700px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #1f2937;
+}
+
+.task-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.task-input-row input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.task-input-row button {
+  padding: 10px 16px;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.task-input-row button:hover {
+  background-color: #2563eb;
+}
+
+#taskList {
+  list-style: none;
+}
+
+#taskList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+#taskList li.completed span {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+#taskList li .task-actions button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  margin-left: 8px;
+}
+
+.done-btn { color: #16a34a; }
+.remove-btn { color: #dc2626; }
+
+#searchBox {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+#itemList li {
+  padding: 8px 10px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+#clock {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  color: #3b82f6;
+  margin-bottom: 10px;
+}
+
+#dateDisplay {
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+.slider-row {
+  margin-bottom: 15px;
+}
+
+.slider-row label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+#sliderValueBox {
+  margin-top: 10px;
+  padding: 12px;
+  text-align: center;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #ffffff;
+  background-color: #3b82f6;
+  transition: background-color 0.3s ease;
+}
+
+.empty-state {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 13px;
+  padding: 15px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Interactive Web Application</h1>
+  <p>A demo of dynamic content updates, interactive forms, and real-time UI feedback</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Task Manager</h2>
+    <div class="task-input-row">
+      <input type="text" id="taskInput" placeholder="Add a new task...">
+      <button id="addTaskBtn">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+
+  <div class="card">
+    <h2>Live Search Filter</h2>
+    <input type="text" id="searchBox" placeholder="Type to filter skills...">
+    <ul id="itemList"></ul>
+  </div>
+
+  <div class="card">
+    <h2>Real-Time Clock</h2>
+    <div id="clock">00:00:00</div>
+    <div id="dateDisplay"></div>
+  </div>
+
+  <div class="card">
+    <h2>Budget Estimator</h2>
+    <div class="slider-row">
+      <label for="budgetSlider">Project Budget: <span id="budgetLabel">$5000</span></label>
+      <input type="range" id="budgetSlider" min="500" max="20000" step="500" value="5000">
+    </div>
+    <div id="sliderValueBox">Standard Package</div>
+  </div>
+
+</div>
+
+<script>
+let tasks = [];
+
+function renderTasks() {
+  const listEl = document.getElementById("taskList");
+  if (tasks.length === 0) {
+    listEl.innerHTML = '<div class="empty-state">No tasks added yet.</div>';
+    return;
+  }
+  listEl.innerHTML = tasks.map(function(task, index) {
+    return '<li class="' + (task.done ? "completed" : "") + '">' +
+      '<span>' + task.text + '</span>' +
+      '<span class="task-actions">' +
+        '<button class="done-btn" onclick="toggleTask(' + index + ')">Done</button>' +
+        '<button class="remove-btn" onclick="removeTask(' + index + ')">Remove</button>' +
+      '</span>' +
+    '</li>';
+  }).join("");
+}
+
+function addTask() {
+  const input = document.getElementById("taskInput");
+  const value = input.value.trim();
+  if (value === "") return;
+  tasks.push({ text: value, done: false });
+  input.value = "";
+  renderTasks();
+}
+
+function toggleTask(index) {
+  tasks[index].done = !tasks[index].done;
+  renderTasks();
+}
+
+function removeTask(index) {
+  tasks.splice(index, 1);
+  renderTasks();
+}
+
+document.getElementById("addTaskBtn").addEventListener("click", addTask);
+document.getElementById("taskInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") addTask();
+});
+
+renderTasks();
+
+const skills = ["HTML", "CSS", "JavaScript", "React", "Node.js", "Python", "SQL", "Cloud Computing", "Blockchain", "Machine Learning", "DOM Manipulation", "Git"];
+
+function renderItemList(filter) {
+  const listEl = document.getElementById("itemList");
+  const filtered = skills.filter(function(item) {
+    return item.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+  });
+
+  if (filtered.length === 0) {
+    listEl.innerHTML = '<div class="empty-state">No matching skills found.</div>';
+    return;
+  }
+
+  listEl.innerHTML = filtered.map(function(item) {
+    return "<li>" + item + "</li>";
+  }).join("");
+}
+
+document.getElementById("searchBox").addEventListener("input", function(e) {
+  renderItemList(e.target.value);
+});
+
+renderItemList("");
+
+function updateClock() {
+  const now = new Date();
+  const timeString = now.toLocaleTimeString();
+  const dateString = now.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+  document.getElementById("clock").textContent = timeString;
+  document.getElementById("dateDisplay").textContent = dateString;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+const slider = document.getElementById("budgetSlider");
+const budgetLabel = document.getElementById("budgetLabel");
+const sliderValueBox = document.getElementById("sliderValueBox");
+
+function updateSlider() {
+  const value = parseInt(slider.value, 10);
+  budgetLabel.textContent = "$" + value.toLocaleString();
+
+  let label = "";
+  let color = "";
+
+  if (value < 3000) {
+    label = "Basic Package";
+    color = "#6b7280";
+  } else if (value < 8000) {
+    label = "Standard Package";
+    color = "#3b82f6";
+  } else if (value < 15000) {
+    label = "Advanced Package";
+    color = "#f59e0b";
+  } else {
+    label = "Premium Package";
+    color = "#16a34a";
+  }
+
+  sliderValueBox.textContent = label;
+  sliderValueBox.style.backgroundColor = color;
+}
+
+slider.addEventListener("input", updateSlider);
+updateSlider();
+</script>
+
+</body>
+</html>
