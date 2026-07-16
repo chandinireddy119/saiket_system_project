@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task 3 - Simple Navigation Menu</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  scroll-behavior: smooth;
+  background-color: #f4f6f8;
+  color: #222222;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  background-color: #1f2937;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+nav .logo {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+nav ul li a:hover {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+section {
+  min-height: 500px;
+  padding: 60px 8%;
+  border-bottom: 1px solid #d1d5db;
+}
+
+section h1 {
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: #1f2937;
+}
+
+section p {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 700px;
+  color: #374151;
+}
+
+#home { background-color: #f9fafb; }
+#about { background-color: #eef2ff; }
+#services { background-color: #f0fdf4; }
+#portfolio { background-color: #fff7ed; }
+#contact { background-color: #fef2f2; }
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #1f2937;
+  color: #e5e7eb;
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Saiket Systems</div>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="home">
+  <h1>Home</h1>
+  <p>Welcome to this simple navigation menu demo built for the Saiket Systems Web Development Internship, Task 3.</p>
+</section>
+
+<section id="about">
+  <h1>About</h1>
+  <p>This section shows how a sticky navigation bar works and how it links to different parts of the page using anchor tags.</p>
+</section>
+
+<section id="services">
+  <h1>Services</h1>
+  <p>This section can list services such as web design, front end development, and UI consulting.</p>
+</section>
+
+<section id="portfolio">
+  <h1>Portfolio</h1>
+  <p>This section can showcase sample projects completed during the internship.</p>
+</section>
+
+<section id="contact">
+  <h1>Contact</h1>
+  <p>Email: support@saiket.in | Website: www.saiket.in | LinkedIn: saiketsystems</p>
+</section>
+
+<footer>
+  <p>Saiket Systems - Web Development Internship Task 3</p>
+</footer>
+
+</body>
+</html>
